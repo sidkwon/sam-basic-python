@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description:
+Description: hol
 
 Globals:
   Function:
@@ -11,6 +11,9 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: hol_lambda/
+      Environment:
+        Variables:
+          DDBTable: !Ref DDBTable
       Handler: app.lambda_handler
       Runtime: python3.6
       Events:
@@ -19,6 +22,10 @@ Resources:
           Properties:
             Sql: SELECT * FROM 'smarthome/house1/energy/appliances'
       FunctionName: hol_lambda_sam
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DDBTable
+
   DDBTable:
     Type: AWS::DynamoDB::Table
     Properties:

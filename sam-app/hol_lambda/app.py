@@ -1,7 +1,9 @@
 import json
+import os
 import boto3
 
 # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html
+ddb_table_name = os.environ['DDBTable']
 client = boto3.client('dynamodb')
 
 def lambda_handler(event, context):
@@ -35,7 +37,7 @@ def lambda_handler(event, context):
             },
         },
         ReturnConsumedCapacity='TOTAL',
-        TableName='hol-ddb',
+        TableName=ddb_table_name,
     )
     
     print(response)
